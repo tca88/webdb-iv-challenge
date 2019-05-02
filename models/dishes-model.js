@@ -5,7 +5,8 @@ module.exports = {
   getDish,
   addDish,
   update,
-  remove
+  remove,
+  getRecipeByDish
 };
 
 function getDishes() {
@@ -34,7 +35,7 @@ function update(id, changes) {
     .update(changes)
     .then(count => {
       if (count > 0) {
-        return findById(id);
+        return getDish(id);
       } else {
         return null;
       }
@@ -45,4 +46,11 @@ function remove(id) {
   return db("dishes")
     .where({ id })
     .del();
+}
+
+function getRecipeByDish(dishId) {
+  return db("recipes as r")
+    .join("dishes as d", "d.id", "r.dish_id")
+    .select("r.id", "r.name", "d.name as dishName")
+    .where("r.dish_id", dishId);
 }

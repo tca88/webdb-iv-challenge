@@ -30,8 +30,25 @@ router.get("/:id", (req, res) => {
     });
 });
 
+router.get("/:id/recipes", (req, res) => {
+  Dishes.getRecipeByDish(req.params.id)
+    .where({ dish_id: req.params.id })
+    .then(recipe => {
+      if (recipe) {
+        res.status(200).json(recipe);
+      } else {
+        res.status(404).json({ message: "not found" });
+      }
+    })
+    .catch(error => {
+      res
+        .status(500)
+        .json({ message: "We ran into an error retrieving the dish" });
+    });
+});
+
 router.post("/", (req, res) => {
-  Dishes.addDish({ name: "singas" })
+  Dishes.addDish(req.body)
     .then(dish => {
       if (dish.name) {
         res.status(201).json(dish);
