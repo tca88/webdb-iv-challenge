@@ -34,6 +34,8 @@ exports.up = function(knex, Promise) {
       // the students and cohorts tables must be created before this table is created
       tbl.increments();
 
+      tbl.string("ingredient", 300).notNullable();
+
       tbl
         .integer("dish_id")
         .unsigned()

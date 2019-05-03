@@ -34,7 +34,7 @@ function update(id, changes) {
     .update(changes)
     .then(count => {
       if (count > 0) {
-        return findById(id);
+        return getRecipe(id);
       } else {
         return null;
       }
